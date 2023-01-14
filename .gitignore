@@ -155,4 +155,5 @@ iOSInjectionProject/
 
 # End of 
 https://www.toptal.com/developers/gitignore/api/swift,macos,xcode,xcodeinjection
-./Project3
+Project3/*
+
