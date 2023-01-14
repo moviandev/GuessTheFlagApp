@@ -9,23 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            HStack {
-                Text("H1")
-                Text("H2")
-                Text("H3")
-            }
-            HStack {
-                Text("Q1")
-                Text("Q2")
-                Text("Q3")
-            }
-            HStack {
-                Text("W1")
-                Text("W2")
-                Text("W3")
-            }
+        ZStack {
+            Color(red: 1, green: 0.8, blue: 0)
+            Color.secondary
+            Text("Your content")
         }
+        .ignoresSafeArea()
     }
 }
 
