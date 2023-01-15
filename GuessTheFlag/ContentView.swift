@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showingScore = false
+    @State private var showingReset = false
     @State private var scoreTitle = ""
     @State private var totalScore = 0
+    @State private var roundsPlayed = 8
+    @State private var resetTitle = ""
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     
@@ -22,7 +25,7 @@ struct ContentView: View {
             RadialGradient(stops: [
                 .init(color: Color(red: 0.1, green: 0.2, blue: 0.45), location: 0.3),
                 .init(color: Color(red: 0.76, green: 0.15, blue: 0.26), location: 0.3)], center: .top, startRadius: 200, endRadius: 700)
-                .ignoresSafeArea()
+            .ignoresSafeArea()
             
             VStack {
                 Spacer()
@@ -70,6 +73,11 @@ struct ContentView: View {
         } message: {
             Text("Your Score is \(totalScore)")
         }
+        .alert("Game over!", isPresented: $showingReset) {
+            Button("Reset", role: .cancel, action: resetGame)
+        } message: {
+            Text(defineMessage())
+        }
     }
     
     func flagTapped(_ number: Int) {
@@ -77,7 +85,7 @@ struct ContentView: View {
             scoreTitle = "Correct"
             totalScore += 1
         } else {
-            scoreTitle = "Wrong"
+            scoreTitle = "Wrong! That's the flag of \(countries[number])"
             totalScore -= 1
         }
         
@@ -85,7 +93,28 @@ struct ContentView: View {
             totalScore = 0
         }
         
+        roundsPlayed -= 1
+        
+        if roundsPlayed == 0 {
+            showingReset = true
+            return
+        }
+        
         showingScore = true
+    }
+    
+    func defineMessage() -> String {
+        if totalScore >= 8 {
+            return "Winner! You got all questions right"
+        } else {
+            return "Next time maybe? You got right just \(totalScore) questions"
+        }
+    }
+    
+    func resetGame() {
+        totalScore = 0
+        roundsPlayed =  8
+        askQuestion()
     }
     
     func askQuestion() {
