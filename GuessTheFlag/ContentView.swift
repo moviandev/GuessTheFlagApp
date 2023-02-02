@@ -120,7 +120,7 @@ struct ContentView: View {
             totalScore += 1
         } else {
             scoreTitle = "Wrong! That's the flag of \(countries[number])"
-            totalScore -=  totalScore < 0 ? 0 : 1
+            totalScore -=  totalScore <= 0 ? 0 : 1
         }
         
         roundsPlayed -= 1
