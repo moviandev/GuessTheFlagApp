@@ -41,6 +41,8 @@ struct ContentView: View {
     @State private var totalScore = 0
     @State private var roundsPlayed = 8
     @State private var resetTitle = ""
+    @State private var tappedFlag = 0;
+    @State private var animationAmount = 0.0
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     
@@ -71,9 +73,14 @@ struct ContentView: View {
                     ForEach(0..<3) {number in
                         Button {
                             flagTapped(number)
+                            
+                            withAnimation {
+                                animationAmount += 360
+                            }
                         } label: {
                             FlagImage(imageName: countries[number])
                         }
+                        .rotation3DEffect(tappedFlag == number ? .degrees(animationAmount) : .zero, axis: (x: 0, y: 1, z: 0))
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -110,11 +117,7 @@ struct ContentView: View {
             totalScore += 1
         } else {
             scoreTitle = "Wrong! That's the flag of \(countries[number])"
-            totalScore -= 1
-        }
-        
-        if totalScore < 0 {
-            totalScore = 0
+            totalScore -=  totalScore < 0 ? 0 : 1
         }
         
         roundsPlayed -= 1
@@ -125,6 +128,7 @@ struct ContentView: View {
         }
         
         showingScore = true
+        tappedFlag = number
     }
     
     func defineMessage() -> String {
