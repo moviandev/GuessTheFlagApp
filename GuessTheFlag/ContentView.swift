@@ -43,6 +43,7 @@ struct ContentView: View {
     @State private var resetTitle = ""
     @State private var tappedFlag = 0;
     @State private var animationAmount = 0.0
+    @State private var fadingOut = false
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     
@@ -76,9 +77,11 @@ struct ContentView: View {
                             
                             withAnimation {
                                 animationAmount += 360
+                                fadingOut.toggle()
                             }
                         } label: {
                             FlagImage(imageName: countries[number])
+                                .opacity(fadingOut && tappedFlag != number ? 0.25 : 1)
                         }
                         .rotation3DEffect(tappedFlag == number ? .degrees(animationAmount) : .zero, axis: (x: 0, y: 1, z: 0))
                     }
@@ -148,6 +151,7 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        fadingOut.toggle()
     }
 }
 
