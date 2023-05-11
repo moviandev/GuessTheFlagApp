@@ -96,6 +96,7 @@ struct ContentView: View {
                         } label: {
                             FlagImage(imageName: countries[number])
                                 .opacity(fadingOut && tappedFlag != number ? 0.25 : 1)
+                                .accessibilityLabel(labels[countries[number], default: "Unknown flag"])
                         }
                         .rotation3DEffect(.degrees(animationAmount), axis: (x: 0, y: tappedFlag == number ? 1 : -1, z: 0))
                     }
